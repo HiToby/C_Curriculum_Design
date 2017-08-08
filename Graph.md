@@ -28,6 +28,20 @@
 	int gd = DETECT,gm;
 	initgraph(&gd,&gm,"");
 ```
+##图形系统检测函数
+```c
+	//函数原型
+		void far detectgraph(int far *graphdiver,int far *graphmode);
+	//一般调用形式
+		detectgraph(&graphdiver,&graphmode);
+```
+##清屏函数
+```c
+	//清屏函数
+	void far cleardevice(void);
+	//清楚图示窗口函数
+	void far clearviewport(void);
+```
 
 ##图形系统关闭函数
 ```c
@@ -37,40 +51,30 @@
 	void far restorecrtmode(void);
 ```
 
-##设置画笔当前颜色及屏幕背景色
-```c
-	void setcolor(int color);   // 设置当前画笔颜色
-	void setbcolor(int color);  // 设置屏幕背景色
-	enum COLORS {
-    	BLACK,          /* dark colors */
-    	BLUE,
-    	GREEN,
-    	CYAN,
-    	RED,
-    	MAGENTA,
-    	BROWN,
-    	LIGHTGRAY,
-    	DARKGRAY,           /* light colors */
-    	LIGHTBLUE,
-    	LIGHTGREEN,
-    	LIGHTCYAN,
-    	LIGHTRED,
-    	LIGHTMAGENTA,
-    	YELLOW,
-    	WHITE
-	};
-```
-
 ## 画点及获取屏幕点的颜色
 ```c
 	void putpixel(int x,int y,int color);//向指定坐标(x,y)处画一个给定颜色的点
-	unsigned getpixel(int x,int y);      //获取(x,y)点的颜色
+	unsigned int getpixel(int x,int y);      //获取(x,y)点的颜色
+```
+
+##有关画图坐标位置函数
+```c
+	//移动至(x,y)函数
+	void far moveto(int x,int y);
+	//从当前位置移动至增量(dx,dy)函数
+	void far moverel(int dx,int dy);
+	//得到当前画笔x位置
+	void far getx(void);
+	//得到当前画笔y位置
+	void far gety(void);
 ```
 
 ##设置线性及画直线
 ```c
 	void setlinestyle(int linestyle,unsigned user_pattern,int thickness);
-	
+	//只有linestyle取USERBIT_LINE时user_pattern才有效
+	//如0xF3D0  线性为(1亮0暗)1111001111000000
+
 	enum line_styles {      /* Line styles for get/setlinestyle */
     	SOLID_LINE   = 0,
     	DOTTED_LINE  = 1,
@@ -84,17 +88,19 @@
 	};
 	
 	// 画直线相关函数
-	void line(int x1,int y1,int x2,int y2);
-	void lineto(int x,int y);
-	void moveto(int x,int y);
+	void far line(int x1,int y1,int x2,int y2);
+	void far lineto(int x,int y);
+	void far linerel(int dx, int dy);
 ```
 
-##画圆，椭圆，矩形及多边形
+##画圆，椭圆，矩形，多边形，圆弧及扇形
 ```c
 	void circle(int x,int y,int radius); //圆
 	void ellipse(int x,int y,int stangle,int endangle,int xradius,int yradius); //椭圆
 	void rectangle(int left,int top,int right,int bottom); //矩形
 	void drawpoly(int numpoints,int *polypoingts); //多边形
+	void arc(int x, int y, int stangle, int endangle, int radius);//圆弧
+	void pieslice(int x,int y, int stangle, int endangle, int radius);//扇形
 	// 一般调用形式
 	circle(100,80,30);
 	ellipse(150,100,0,180,40,30)；
@@ -141,10 +147,37 @@
 	void sector(int x, int y, int stangle, int endangle, int xradius, int yradius);
 ```
 
+#颜色控制函数
+
+##设置画笔当前颜色及屏幕背景色
+```c
+	void setcolor(int color);   // 设置当前画笔颜色
+	void setbcolor(int color);  // 设置屏幕背景色
+	enum COLORS {
+    	BLACK,          /* dark colors */
+    	BLUE,
+    	GREEN,
+    	CYAN,
+    	RED,
+    	MAGENTA,
+    	BROWN,
+    	LIGHTGRAY,
+    	DARKGRAY,           /* light colors */
+    	LIGHTBLUE,
+    	LIGHTGREEN,
+    	LIGHTCYAN,
+    	LIGHTRED,
+    	LIGHTMAGENTA,
+    	YELLOW,
+    	WHITE
+	};
+```
+
+
 #图形方式下的文本常见操作函数
 ##视口操作函数
 ```c
-	void far setviewpoint(int left, int top, int right, int bottom, int clip); // clip当绘制图形越过视口边界时是否对其进行裁剪。非0则裁剪。
+	void far setviewport(int left, int top, int right, int bottom, int clip); // clip当绘制图形越过视口边界时是否对其进行裁剪。非0则裁剪。
 	void far getviewport(struct viewporttype *viewport);
 	void far clearviewport(void);
 ```
