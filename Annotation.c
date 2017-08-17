@@ -1,5 +1,5 @@
 /**********************************************************
-*Copyright(C),2010-2011,Your Company
+*Copyright(c) Automation Excellence Class
 *FileName:  // 文件名
 *Author:  //作者
 *Version:  //版本
